@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaud Divyanshu Dineshkumar — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ TOKENS ============ */
+  :root{
+    --bg: #0c1015;
+    --panel: #12171f;
+    --panel-light: #1a212b;
+    --line: #29323f;
+    --text: #eef1f5;
+    --muted: #8a94a3;
+    --amber: #ffb703;      /* scoreboard accent — sports side */
+    --amber-dim: #7a5c14;
+    --green: #39e88f;      /* terminal accent — dev side */
+    --green-dim: #1c5c3f;
+    --display: 'Teko', sans-serif;
+    --body: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --radius: 4px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:
+      linear-gradient(180deg, rgba(255,183,3,0.03), transparent 300px),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* subtle scan/turf texture on body */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  section{ position:relative; z-index:1; padding: 110px 8vw; }
+
+  img.avatar{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  ::selection{ background: var(--amber); color:#0c1015; }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+  }
+
+  /* ============ NAV ============ */
+  header{
+    position: fixed; top:0; left:0; right:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 8vw;
+    background: rgba(12,16,21,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{
+    font-family: var(--mono); font-size:14px; letter-spacing:0.08em;
+    color: var(--text);
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+  nav ul{ display:flex; gap:34px; }
+  nav a{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.1em;
+    color: var(--muted); text-transform:uppercase;
+    position:relative; padding-bottom:4px;
+    transition: color .25s ease;
+  }
+  nav a::after{
+    content:""; position:absolute; left:0; bottom:0; height:2px; width:0;
+    background: var(--amber); transition: width .25s ease;
+  }
+  nav a:hover{ color: var(--text); }
+  nav a:hover::after{ width:100%; }
+
+  /* ============ HERO / PLAYER CARD ============ */
+  .hero{
+    min-height: 100vh;
+    display:flex; align-items:center;
+    padding-top: 140px;
+    padding-bottom: 60px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    width:100%;
+    align-items:center;
+  }
+  .eyebrow{
+    font-family: var(--mono); font-size:13px; letter-spacing:0.15em;
+    color: var(--green); text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--green);
+  }
+  .hero h1{
+    font-family: var(--display); font-weight:600;
+    font-size: clamp(56px, 8vw, 108px);
+    line-height:0.92;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+  .hero h1 .accent{ color: var(--amber); }
+  .hero-sub{
+    margin-top:22px; max-width:520px;
+    color: var(--muted); font-size:17px;
+  }
+  .hero-tags{
+    margin-top:30px; display:flex; gap:12px; flex-wrap:wrap;
+  }
+  .tag{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.05em;
+    border:1px solid var(--line); border-radius: 999px;
+    padding: 7px 14px; color: var(--muted);
+  }
+  .tag.on{ border-color: var(--amber); color: var(--amber); }
+
+  .hero-cta{ margin-top:38px; display:flex; gap:16px; }
+  .btn{
+    font-family: var(--mono); font-size:13px; letter-spacing:0.06em;
+    padding: 14px 26px; border-radius: var(--radius);
+    text-transform:uppercase; transition: all .2s ease;
+    display:inline-block;
+  }
+  .btn-primary{
+    background: var(--green); color:#0a0f0b; font-weight:600;
+  }
+  .btn-primary:hover{ box-shadow: 0 0 0 3px var(--green-dim); transform: translateY(-1px); }
+  .btn-ghost{
+    border:1px solid var(--line); color: var(--text);
+  }
+  .btn-ghost:hover{ border-color: var(--amber); color: var(--amber); }
+
+  /* player card */
+  .card{
+    background: linear-gradient(165deg, var(--panel-light), var(--panel));
+    border:1px solid var(--line);
+    border-radius: 10px;
+    overflow:hidden;
+    position:relative;
+  }
+  .card-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding: 20px 22px 0;
+    font-family: var(--mono); font-size:11px; letter-spacing:0.08em;
+    color: var(--muted); text-transform:uppercase;
+  }
+  .jersey-no{
+    font-family: var(--display); font-size: 46px; line-height:1;
+    color: var(--amber); font-weight:600;
+  }
+  .card-photo{
+    margin: 14px 22px 0; height: 230px; border-radius: 8px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,183,3,0.18), transparent 55%),
+      radial-gradient(circle at 75% 80%, rgba(57,232,143,0.16), transparent 55%),
+      #0f141b;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .card-photo .initials{
+    font-family: var(--display); font-size:90px; color: var(--line);
+    letter-spacing:0.02em;
+  }
+  .scan-line{
+    position:absolute; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    animation: scan 3.2s linear infinite;
+    opacity:0.7;
+  }
+  @keyframes scan{
+    0%{ top:6%; }
+    50%{ top:92%; }
+    100%{ top:6%; }
+  }
+  .card-body{ padding: 18px 22px 24px; }
+  .card-name{
+    font-family: var(--display); font-size: 30px; letter-spacing:0.01em;
+    text-transform:uppercase; color:var(--text);
+  }
+  .card-role{
+    font-family: var(--mono); font-size:12px; color: var(--green);
+    margin-top:4px; letter-spacing:0.04em;
+  }
+  .card-stats{
+    margin-top:18px; display:grid; grid-template-columns: repeat(3,1fr);
+    border-top:1px solid var(--line); padding-top:16px; gap:10px;
+  }
+  .card-stats div{ text-align:center; }
+  .card-stats .num{
+    font-family: var(--display); font-size:28px; color: var(--amber);
+  }
+  .card-stats .lbl{
+    font-family: var(--mono); font-size:10px; color: var(--muted);
+    text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;
+  }
+
+  /* ============ SECTION HEADS ============ */
+  .section-head{
+    display:flex; align-items:baseline; gap:16px; margin-bottom:50px;
+  }
+  .section-tag{
+    font-family: var(--mono); font-size:12px; color: var(--amber);
+    letter-spacing:0.12em; text-transform:uppercase;
+    border:1px solid var(--amber-dim); padding:4px 10px; border-radius:999px;
+  }
+  .section-head h2{
+    font-family: var(--display); font-weight:600; font-size:44px;
+    text-transform:uppercase; letter-spacing:0.01em;
+  }
+  .section-line{
+    flex:1; height:1px; background: var(--line);
+  }
+
+  /* ============ ABOUT ============ */
+  #about{ border-top:1px solid var(--line); }
+  .about-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:60px;
+  }
+  .about-grid p{ color: var(--muted); font-size:16px; margin-bottom:16px; }
+  .about-grid p .hl{ color: var(--text); font-weight:600; }
+  .info-list{ display:flex; flex-direction:column; gap:0; }
+  .info-row{
+    display:flex; justify-content:space-between; padding:14px 0;
+    border-bottom:1px solid var(--line);
+    font-family: var(--mono); font-size:13px;
+  }
+  .info-row span:first-child{ color: var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+  .info-row span:last-child{ color: var(--text); }
+
+  /* ============ SKILLS — MATCH STATS ============ */
+  #skills{ background: var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .stat-grid{ display:flex; flex-direction:column; gap:26px; }
+  .stat-row{ display:grid; grid-template-columns: 200px 1fr 60px; align-items:center; gap:20px; }
+  .stat-name{ font-family: var(--mono); font-size:14px; letter-spacing:0.03em; }
+  .stat-track{
+    height:10px; background: var(--bg); border-radius:999px; overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .stat-fill{
+    height:100%; border-radius:999px;
+    background: linear-gradient(90deg, var(--green-dim), var(--green));
+    width: var(--pct);
+    animation: fillbar 1.4s ease-out both;
+  }
+  @keyframes fillbar{ from{ width:0; } to{ width: var(--pct); } }
+  .stat-pct{ font-family: var(--display); font-size:22px; color: var(--amber); text-align:right; }
+
+  .toolbelt{ margin-top:56px; }
+  .toolbelt h3{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.1em;
+    color: var(--muted); text-transform:uppercase; margin-bottom:16px;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{
+    font-family: var(--mono); font-size:12.5px;
+    background: var(--panel-light); border:1px solid var(--line);
+    padding:8px 14px; border-radius: var(--radius); color: var(--text);
+  }
+
+  /* ============ EDUCATION — TIMELINE ============ */
+  #education{}
+  .timeline{ position:relative; padding-left:36px; }
+  .timeline::before{
+    content:""; position:absolute; left:6px; top:6px; bottom:6px; width:1px;
+    background: var(--line);
+  }
+  .t-item{ position:relative; padding-bottom:44px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-item::before{
+    content:""; position:absolute; left:-36px; top:4px;
+    width:13px; height:13px; border-radius:50%;
+    background: var(--bg); border:2px solid var(--amber);
+  }
+  .t-item.current::before{ background: var(--amber); box-shadow:0 0 10px var(--amber); }
+  .t-year{ font-family: var(--mono); font-size:12px; color: var(--green); letter-spacing:0.06em; }
+  .t-title{ font-family: var(--display); font-size:26px; text-transform:uppercase; margin-top:4px; }
+  .t-desc{ color: var(--muted); font-size:14.5px; margin-top:6px; max-width:560px; }
+
+  /* ============ INTERESTS ============ */
+  #interests{ background: var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .split-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .split-card{
+    background: var(--panel-light); border:1px solid var(--line);
+    border-radius: 10px; padding: 34px; position:relative; overflow:hidden;
+  }
+  .split-card::after{
+    content:""; position:absolute; right:-30px; bottom:-30px;
+    width:150px; height:150px; border-radius:50%;
+    filter: blur(40px); opacity:0.25;
+  }
+  .split-card.sports::after{ background: var(--amber); }
+  .split-card.dev::after{ background: var(--green); }
+  .split-card h3{
+    font-family: var(--display); font-size:30px; text-transform:uppercase;
+    margin-bottom:12px; position:relative; z-index:1;
+  }
+  .split-card.sports h3{ color: var(--amber); }
+  .split-card.dev h3{ color: var(--green); }
+  .split-card p{ color: var(--muted); font-size:15px; position:relative; z-index:1; }
+  .split-card .mark{
+    font-family: var(--mono); font-size:12px; color:var(--muted);
+    letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px; display:block;
+  }
+
+  /* ============ CONTACT ============ */
+  #contact{ text-align:center; padding-bottom:140px; }
+  #contact h2{
+    font-family: var(--display); font-size: clamp(48px,7vw,90px);
+    text-transform:uppercase; margin-bottom:20px;
+  }
+  #contact h2 .accent{ color:var(--green); }
+  #contact p{ color: var(--muted); max-width:480px; margin:0 auto 36px; }
+  .contact-links{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap; }
+
+  footer{
+    border-top:1px solid var(--line);
+    padding: 26px 8vw;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family: var(--mono); font-size:11.5px; color: var(--muted);
+    letter-spacing:0.04em; text-transform:uppercase;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px){
+    header{ padding:16px 6vw; }
+    nav ul{ gap:18px; }
+    nav a{ font-size:10.5px; }
+    section{ padding: 90px 6vw; }
+    .hero{ padding-top:120px; }
+    .hero-grid{ grid-template-columns:1fr; gap:50px; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .stat-row{ grid-template-columns: 110px 1fr 46px; gap:12px; }
+    .split-grid{ grid-template-columns:1fr; }
+    footer{ flex-direction:column; gap:10px; text-align:center; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="brand"><span class="dot"></span>DIVYANSHU.GAUD</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#interests">Interests</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">B.Tech CSE · 2nd Year</div>
+        <h1>Gaud<br>Divyanshu<br><span class="accent">Dineshkumar</span></h1>
+        <p class="hero-sub">
+          Computer Science undergrad building a career in software development —
+          on the field for sports, in the terminal for code. Currently training in
+          both disciplines: teamwork and logic.
+        </p>
+        <div class="hero-tags">
+          <span class="tag on">Software Development</span>
+          <span class="tag">Sports</span>
+          <span class="tag">DSA</span>
+          <span class="tag">Team Player</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary">Get in touch</a>
+          <a href="#education" class="btn btn-ghost">View profile</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span>Player Card / Dev Profile</span>
+          <span class="jersey-no">02</span>
+        </div>
+        <div class="card-photo">
+          <span class="initials">GD</span>
+          <span class="scan-line"></span>
+        </div>
+        <div class="card-body">
+          <div class="card-name">Divyanshu Gaud</div>
+          <div class="card-role">// aspiring software developer</div>
+          <div class="card-stats">
+            <div>
+              <div class="num">2nd</div>
+              <div class="lbl">Year</div>
+            </div>
+            <div>
+              <div class="num">CSE</div>
+              <div class="lbl">Branch</div>
+            </div>
+            <div>
+              <div class="num">∞</div>
+              <div class="lbl">Curiosity</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="section-head">
+      <span class="section-tag">01</span>
+      <h2>About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>
+          I'm <span class="hl">Gaud Divyanshu Dineshkumar</span>, a second-year
+          B.Tech Computer Science Engineering student. I approach problems the
+          way I approach a match — with focus, strategy, and the willingness to
+          put in the practice reps that make the difference.
+        </p>
+        <p>
+          Off the field, I'm sharpening my fundamentals in programming and data
+          structures, with the long-term goal of building a career in
+          <span class="hl">software development</span>. On the field, sports
+          keep me disciplined, competitive, and used to working as part of a team.
+        </p>
+      </div>
+      <div class="info-list">
+        <div class="info-row"><span>Degree</span><span>B.Tech, Computer Science Engineering</span></div>
+        <div class="info-row"><span>Year</span><span>2nd Year</span></div>
+        <div class="info-row"><span>Focus</span><span>Software Development</span></div>
+        <div class="info-row"><span>Interest</span><span>Sports</span></div>
+        <div class="info-row"><span>Location</span><span>India</span></div>
+        <div class="info-row"><span>Status</span><span>Open to internships</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="section-head">
+      <span class="section-tag">02</span>
+      <h2>Skills</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-row">
+        <span class="stat-name">C / C++</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:70%"></div></div>
+        <span class="stat-pct">70%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Java</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:60%"></div></div>
+        <span class="stat-pct">60%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Python</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:55%"></div></div>
+        <span class="stat-pct">55%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">HTML / CSS</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:65%"></div></div>
+        <span class="stat-pct">65%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Data Structures</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:50%"></div></div>
+        <span class="stat-pct">50%</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">Git / GitHub</span>
+        <div class="stat-track"><div class="stat-fill" style="--pct:45%"></div></div>
+        <span class="stat-pct">45%</span>
+      </div>
+    </div>
+
+    <div class="toolbelt">
+      <h3>Currently learning</h3>
+      <div class="chip-row">
+        <span class="chip">Data Structures & Algorithms</span>
+        <span class="chip">Object-Oriented Programming</span>
+        <span class="chip">DBMS</span>
+        <span class="chip">Operating Systems</span>
+        <span class="chip">Web Development Basics</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education">
+    <div class="section-head">
+      <span class="section-tag">03</span>
+      <h2>Education</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline">
+      <div class="t-item current">
+        <div class="t-year">2024 — Present</div>
+        <div class="t-title">B.Tech, Computer Science Engineering</div>
+        <div class="t-desc">Currently in 2nd year, building a strong base in programming, data structures, and core CS fundamentals.</div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">Class XII</div>
+        <div class="t-title">Higher Secondary Education</div>
+        <div class="t-desc">Completed senior secondary schooling with Science stream, laying the groundwork for engineering studies.</div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">Class X</div>
+        <div class="t-title">Secondary Education</div>
+        <div class="t-desc">Completed secondary schooling, developing early interest in academics and sports.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INTERESTS ============ -->
+  <section id="interests">
+    <div class="section-head">
+      <span class="section-tag">04</span>
+      <h2>Interests</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="split-grid">
+      <div class="split-card sports">
+        <span class="mark">Off the keyboard</span>
+        <h3>Sports</h3>
+        <p>
+          A dedicated sports enthusiast who values discipline, teamwork, and
+          competitiveness — lessons from the field that translate directly
+          into how I tackle problems and work in a team.
+        </p>
+      </div>
+      <div class="split-card dev">
+        <span class="mark">On the keyboard</span>
+        <h3>Software Development</h3>
+        <p>
+          Building a career in software development, one project and one
+          problem at a time — with a growing focus on clean code, strong
+          fundamentals, and continuous learning.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="section-head" style="justify-content:center;">
+      <span class="section-tag">05</span>
+      <h2 style="font-size:44px;">Contact</h2>
+      <div class="section-line" style="max-width:60px;"></div>
+    </div>
+    <h2>Let's <span class="accent">Connect</span></h2>
+    <p>
+      Open to internships, collaborations, and opportunities in software
+      development. Reach out — I reply as fast as a fast break.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:youremail@example.com" class="btn btn-primary">Email Me</a>
+      <a href="#" class="btn btn-ghost">LinkedIn</a>
+      <a href="#" class="btn btn-ghost">GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Gaud Divyanshu Dineshkumar</span>
+    <span>Built with HTML & CSS</span>
+  </footer>
+
+</body>
+</html>
