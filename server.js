@@ -15,10 +15,23 @@ const mime = {
 };
 
 const server = http.createServer((req, res) => {
-  const requested = decodeURIComponent((req.url || '/').split('?')[0]);
+  const requestedUrl = (req.url || '/').split('?')[0];
+  let requested;
+  try {
+    requested = decodeURIComponent(requestedUrl);
+  } catch {
+    res.writeHead(400, {'Content-Type': 'text/plain; charset=utf-8'});
+    res.end('Bad request');
+    return;
+  }
+  if (requested === '/health') {
+    res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+    res.end(JSON.stringify({ok: true, service: 'jungle-clash'}));
+    return;
+  }
   const fileName = requested === '/' ? 'jungle-clash (1).html' : requested.replace(/^\/+/, '');
   const filePath = path.resolve(root, fileName);
-  if (!filePath.startsWith(root) || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+  if (!filePath.startsWith(root + path.sep) || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     res.writeHead(404, {'Content-Type': 'text/plain; charset=utf-8'});
     res.end('Not found');
     return;
