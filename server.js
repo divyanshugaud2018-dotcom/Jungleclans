@@ -29,7 +29,7 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify({ok: true, service: 'jungle-clash'}));
     return;
   }
-  const fileName = requested === '/' ? 'jungle-clash (1).html' : requested.replace(/^\/+/, '');
+  const fileName = requested === '/' ? 'index.html' : requested.replace(/^\/+/, '');
   const filePath = path.resolve(root, fileName);
   if (!filePath.startsWith(root + path.sep) || !fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
     res.writeHead(404, {'Content-Type': 'text/plain; charset=utf-8'});

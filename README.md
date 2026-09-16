@@ -11,7 +11,7 @@ npm install
 npm start
 ```
 
-Open `http://localhost:8000/` in a browser. The server serves the game at `/` and exposes `/health` for deployment checks.
+Open `http://localhost:8000/` in a browser. The server serves `index.html` at `/` and exposes `/health` for deployment checks.
 
 ## Two phones on Wi-Fi
 
@@ -22,7 +22,13 @@ Open `http://localhost:8000/` in a browser. The server serves the game at `/` an
 
 The Node server must remain running while the phones play. A public deployment needs a host that supports long-lived WebSocket connections.
 
-## Production deployment
+## Vercel deployment
+
+The game is available at the Vercel root URL because the entry page is named `index.html`. CPU mode, mobile controls, sound effects, and the single-device game work on Vercel.
+
+Vercel does not keep the `ws` WebSocket server alive for real-time rooms. For two-phone Wi-Fi multiplayer, run the Node server on a WebSocket-capable host or on a computer on the same Wi-Fi network.
+
+## Node production deployment
 
 This project can be deployed as a Node web service. Use:
 
